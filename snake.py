@@ -11,22 +11,35 @@ class Snake:
     def __init__(self):
         self.segments = []
         self.create_snake()
+        self.head = self.segments[0] # Shortcut variable
 
     def create_snake(self):
         for i in STARTING_POSITIONS:
+            self.add_segment(i)
             nt = Turtle("square")
             nt.color("black")
             nt.penup()
             nt.goto(i)
             self.segments.append(nt)
 
+    def add_segment(self, position):
+        nt = Turtle("square")
+        nt.color("black")
+        nt.penup()
+        nt.goto(position)
+        self.segments.append(nt)
+
+    def extend(self):
+        # Add a new segment to the position of the last segment
+        self.add_segment(self.segments[-1].position())
+    
+
     def move(self):
         for i in range(len(self.segments) - 1, 0, -1):
             x = self.segments[i-1].xcor()
             y = self.segments[i-1].ycor()
             self.segments[i].goto(x, y)
-
-        self.segments[0].forward(20)
+        self.head.forward(20)
 
     def up(self):
         if self.segments[0].heading() != DOWN:
